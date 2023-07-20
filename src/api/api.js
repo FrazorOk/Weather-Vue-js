@@ -7,7 +7,7 @@ const weatherInstance = axios.create({
 });
 
 const cityInstance = axios.create({
-	baseURL: 'http://api.openweathermap.org/geo/1.0/',
+	baseURL: 'https://api.openweathermap.org/geo/1.0/',
 });
 
 export let cityApi = {
