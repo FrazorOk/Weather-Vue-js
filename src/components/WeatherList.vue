@@ -103,14 +103,22 @@ export default {
 		follow(index) {
 			if (this.weatherList[index].city) {
 				let storedCitys = JSON.parse(localStorage.getItem('citys'));
+				let arr = [];
 
-				if (storedCitys.length < this.maxBlocks) {
-					storedCitys.push(this.weatherList[index].city);
-					localStorage.setItem('citys', JSON.stringify(storedCitys));
+				if (storedCitys) {
+					if (storedCitys.length < this.maxBlocks) {
+						storedCitys.push(this.weatherList[index].city);
+						localStorage.setItem('citys', JSON.stringify(storedCitys));
+
+						this.weatherList[index].favorite = true;
+					} else {
+						this.limitedMode = true;
+					}
+				} else {
+					arr.push(this.weatherList[index].city);
+					localStorage.setItem('citys', JSON.stringify(arr));
 
 					this.weatherList[index].favorite = true;
-				} else {
-					this.limitedMode = true;
 				}
 			}
 		},
@@ -177,11 +185,13 @@ export default {
 
 				this.weatherList[index].favorite = false;
 
-				storedCitys.forEach((storedCity) => {
-					if (storedCity === this.weatherList[index].city) {
-						this.weatherList[index].favorite = true;
-					}
-				});
+				if (storedCitys) {
+					storedCitys.forEach((storedCity) => {
+						if (storedCity === this.weatherList[index].city) {
+							this.weatherList[index].favorite = true;
+						}
+					});
+				}
 			}
 		},
 	},
